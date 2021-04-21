@@ -1,0 +1,61 @@
+From mysql : 
+
+mysql> SET GLOBAL local_infile = true;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> UPDATE mysql.user SET Super_Priv='Y' WHERE user='faiza' AND host='localhost';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> CREATE TABLE expression(gene VARCHAR(7), expr_value INT);
+Query OK, 0 rows affected (0.02 sec)
+
+From Bash: 
+ubuntu@ip-172-31-11-246:  ~$ curl -o expression.tab https://www.staff.hs-mittweida.de/~wuenschi/data/media/compbiolbook/expression.tab
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    91  100    91    0     0    137      0 --:--:-- --:--:-- --:--:--   136
+ubuntu@ip-172-31-11-246:~$  mysqlimport --local -d --ignore-lines=0 -u faiza -p compbiol expression.tab
+Enter password:
+compbiol.expression: Records: 8  Deleted: 0  Skipped: 0  Warnings: 1
+
+
+From mysql : 
+mysql> SELECT * FROM expression;
++---------+------------+
+| gene    | expr_value |
++---------+------------+
+| alr1207 |       8303 |
+| alr2938 |      10323 |
+| alr3395 |       1432 |
+| all3556 |       8043 |
+| alr4392 |        729 |
+| alr4851 |        633 |
+| alr5000 |       5732 |
+|         |       NULL |
++---------+------------+
+8 rows in set (0.00 sec)
+
+mysql>  DELETE FROM expression WHERE gene="";
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> SELECT * FROM expression;
++---------+------------+
+| gene    | expr_value |
++---------+------------+
+| alr1207 |       8303 |
+| alr2938 |      10323 |
+| alr3395 |       1432 |
+| all3556 |       8043 |
+| alr4392 |        729 |
+| alr4851 |        633 |
+| alr5000 |       5732 |
++---------+------------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
